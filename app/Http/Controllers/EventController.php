@@ -4,14 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Mail\EventCreated;
 use App\Models\Event;
 use App\Services\EventApiService;
+use App\Services\WeatherApiService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {
+    /**
+     * @var EventApiService $eventApiService
+     */
     protected $eventApiService;
 
+    /**
+     * Class Constructor
+     *
+     * @param EventApiService $eventApiService
+     */
     public function __construct(EventApiService $eventApiService)
     {
         $this->eventApiService = $eventApiService;
@@ -49,6 +60,8 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $event = $this->eventApiService->store($request->validated());
+
+        Mail::to('ivan.kirby.colina@gmail.com')->send(new EventCreated($event));
 
         return redirect()->route('events.create', $event)->with('success', 'Event successfully created!');
     }

@@ -30,11 +30,14 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  Request request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $events = $this->eventApiService->index();
+        $search    = $request->get('q');
+        $paginated = $request->boolean('paginate');
+        $events    = $this->eventApiService->index($paginated, $search);
 
         return response()->json($events);
     }
