@@ -1,7 +1,6 @@
 <?php
 
-use Carbon\Carbon;
-use Carbon\CarbonImmutable;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/token', function () {
-    return csrf_token();
-});
+Route::resource('events', EventController::class)->withoutMiddleware('auth');
+
+require __DIR__.'/auth.php';
