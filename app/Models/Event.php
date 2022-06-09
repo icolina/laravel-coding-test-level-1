@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-use App\Mail\EventCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class Event extends Model
@@ -41,14 +38,6 @@ class Event extends Model
             $model->id        = (string) Str::uuid();
             $model->createdAt = now()->toDateTimeString();
             $model->updatedAt = now()->toDateTimeString();
-        });
-
-        self::created(function (self $model) {
-            // clear cache
-            Cache::flush();
-
-            // send email
-            Mail::to('firdausnasir69@gmail.com')->send(new EventCreated($model));
         });
     }
 }

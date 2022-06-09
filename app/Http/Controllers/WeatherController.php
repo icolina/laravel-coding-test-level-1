@@ -10,9 +10,14 @@ use App\Services\WeatherApiService;
 
 class WeatherController extends Controller
 {
+    /**
+     * WeatherApiService $weatherApiService
+    */
     protected $weatherApiService;
 
     /**
+     * Class Constructor
+     *
      * @param WeatherApiService $weatherApiService
      */
     public function __construct(WeatherApiService $weatherApiService)
@@ -20,6 +25,9 @@ class WeatherController extends Controller
         $this->weatherApiService = $weatherApiService;
     }
 
+    /**
+     * @return void
+     */
     public function index()
     {
         $temperature = $this->weatherApiService->getWeather();
