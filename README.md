@@ -60,3 +60,10 @@
 
 - Push all the codes into the your remote repository
 - Make sure the repository is public
+
+## Setup
+
+- Run migrations with seeders `php artisan migrate --seed`
+- Setup mailtrap account for testing the sending of email
+- Setup weather api account for testing the weather today (External API)
+- Login with test account (username: test@example.com, password: test-user)

@@ -6,15 +6,22 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Services\EventApiService;
+use App\Services\WeatherApiService;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
     protected $eventApiService;
+    protected $weatherApiService;
 
-    public function __construct(EventApiService $eventApiService)
+    /**
+     * @param EventApiService $eventApiService
+     * @param WeatherApiService $weatherApiService
+     */
+    public function __construct(EventApiService $eventApiService, WeatherApiService $weatherApiService)
     {
         $this->eventApiService = $eventApiService;
+        $this->weatherApiService = $weatherApiService;
     }
 
     /**
@@ -100,5 +107,12 @@ class EventController extends Controller
         $this->eventApiService->delete($event);
 
         return redirect()->route('events.index')->with('success', 'Event successfully deleted!');
+    }
+
+    public function weather()
+    {
+        $temperature = $this->weatherApiService->getWeather();
+
+        return view('events.weather', compact($temperature));
     }
 }
